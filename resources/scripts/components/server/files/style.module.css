@@ -15,19 +15,11 @@
 }
 
 .file_row {
-    @apply flex items-center cursor-pointer rounded-lg mb-1 text-sm no-underline;
-    background: rgba(30, 25, 50, 0.6);
-    border: 1px solid rgba(157, 78, 221, 0.1);
-    transition: all 0.2s ease;
-
-    &:hover {
-        background: rgba(40, 35, 65, 0.8);
-        border-color: rgba(157, 78, 221, 0.25);
-        transform: translateX(2px);
-    }
+    @apply flex items-center cursor-pointer bg-neutral-700 rounded mb-px text-sm;
+    @apply hover:bg-neutral-600;
 
     &>.details {
-        @apply flex flex-1 items-center text-neutral-300 no-underline px-4 py-3 overflow-hidden truncate;
+        @apply flex flex-1 items-center text-neutral-300 no-underline px-4 py-2 overflow-hidden truncate;
 
         &:not(a) {
             @apply cursor-default;
