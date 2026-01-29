@@ -60,10 +60,53 @@ class ThemeSetting extends Model
         if ($setting->gradient_start) $css[] = "--gradient-start: {$setting->gradient_start};";
         if ($setting->gradient_end) $css[] = "--gradient-end: {$setting->gradient_end};";
 
+        if ($setting->gradient_end) $css[] = "--gradient-end: {$setting->gradient_end};";
+
         // Create the root block
         $rootBlock = !empty($css) ? ":root { " . implode(' ', $css) . " }" : "";
 
+        // Pterodactyl Standard overrides
+        // We use [class*="..."] selectors to target styled-components with hashed classes
+        $overrides = "
+            /* Backgrounds */
+            body, html, #app {
+                background-color: var(--background-color) !important;
+                color: var(--text-color) !important;
+            }
+            
+            /* Sidebar */
+            div[class*=\"Sidebar__Container\"] {
+                background-color: var(--secondary-color) !important;
+            }
+
+            /* Navigation Bar / Header */
+            div[class*=\"NavigationBar__Container\"] {
+                background-color: var(--secondary-color) !important;
+            }
+
+            /* Content Containers */
+            div[class*=\"ContentBox__Container\"] {
+                background-color: var(--secondary-color) !important;
+                border: 1px solid var(--primary-color) !important;
+            }
+
+            /* Buttons */
+            button[class*=\"Button__Container\"] {
+                background-color: var(--primary-color) !important;
+            }
+
+            /* Inputs */
+            input, select, textarea {
+                color: var(--text-color) !important;
+            }
+
+            /* Modals */
+            div[class*=\"Modal__ModalContainer\"] {
+                background-color: var(--background-color) !important;
+            }
+        ";
+
         // Append custom CSS
-        return $rootBlock . "\n" . ($setting->custom_css ?? '');
+        return $rootBlock . "\n" . $overrides . "\n" . ($setting->custom_css ?? '');
     }
 }

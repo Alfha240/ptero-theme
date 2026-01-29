@@ -121,10 +121,6 @@
                             </div>
                         </div>
                     </div>
-                        <label for="custom_css" class="control-label">CSS Editor</label>
-                        <p class="text-muted small">Enter your custom CSS below. Variables like <code>--primary-color</code> can be used if supported by your base theme.</p>
-                        <div id="editor_container" style="height: 500px; border: 1px solid #ddd;"></div>
-                        <textarea name="custom_css" id="custom_css" class="hidden">{{ $setting->custom_css }}</textarea>
                     </div>
                 </div>
                 <div class="box-footer">
@@ -138,27 +134,10 @@
 
 @section('footer-scripts')
     @parent
-    <!-- Loading Monaco Editor from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
     <script>
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' }});
-        require(['vs/editor/editor.main'], function() {
-            var editor = monaco.editor.create(document.getElementById('editor_container'), {
-                value: document.getElementById('custom_css').value,
-                language: 'css',
-                theme: 'vs-dark',
-                automaticLayout: true
-            });
-
-            // Sync content on form submit
-            $('form').on('submit', function() {
-                $('#custom_css').val(editor.getValue());
-            });
-
-            // Live preview of hex codes
-            $('input[type="color"]').on('input', function() {
-                $('#preview_' + $(this).attr('id')).text($(this).val());
-            });
+        // Live preview of hex codes
+        $('input[type="color"]').on('input', function() {
+            $('#preview_' + $(this).attr('id')).text($(this).val());
         });
 
         function applyPreset(preset) {
