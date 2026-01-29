@@ -4,10 +4,39 @@ import Can from '@/components/elements/Can';
 import { ServerContext } from '@/state/server';
 import { PowerAction } from '@/components/server/console/ServerConsoleContainer';
 import { Dialog } from '@/components/elements/dialog';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 
 interface PowerButtonProps {
     className?: string;
 }
+
+const GlowButton = styled.button<{ $variant: 'start' | 'restart' | 'stop' }>`
+    ${tw`px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300`}
+    background: ${props =>
+        props.$variant === 'start' ? 'linear-gradient(135deg, #00ff88 0%, #00d4aa 100%)' :
+            props.$variant === 'restart' ? 'linear-gradient(135deg, #00f5ff 0%, #0099ff 100%)' :
+                'linear-gradient(135deg, #ff4757 0%, #ff6b81 100%)'};
+    color: ${props => props.$variant === 'restart' ? '#ffffff' : '#000000'};
+    border: none;
+    box-shadow: 0 4px 15px ${props =>
+        props.$variant === 'start' ? 'rgba(0, 255, 136, 0.4)' :
+            props.$variant === 'restart' ? 'rgba(0, 245, 255, 0.4)' :
+                'rgba(255, 71, 87, 0.4)'};
+    
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px ${props =>
+        props.$variant === 'start' ? 'rgba(0, 255, 136, 0.6)' :
+            props.$variant === 'restart' ? 'rgba(0, 245, 255, 0.6)' :
+                'rgba(255, 71, 87, 0.6)'};
+    }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+`;
 
 export default ({ className }: PowerButtonProps) => {
     const [open, setOpen] = useState(false);
@@ -49,27 +78,31 @@ export default ({ className }: PowerButtonProps) => {
                 Forcibly stopping a server can lead to data corruption.
             </Dialog.Confirm>
             <Can action={'control.start'}>
-                <Button
-                    className={'flex-1'}
+                <GlowButton
+                    $variant="start"
                     disabled={status !== 'offline'}
                     onClick={onButtonClick.bind(this, 'start')}
                 >
                     Start
-                </Button>
+                </GlowButton>
             </Can>
             <Can action={'control.restart'}>
-                <Button.Text className={'flex-1'} disabled={!status} onClick={onButtonClick.bind(this, 'restart')}>
+                <GlowButton
+                    $variant="restart"
+                    disabled={!status}
+                    onClick={onButtonClick.bind(this, 'restart')}
+                >
                     Restart
-                </Button.Text>
+                </GlowButton>
             </Can>
             <Can action={'control.stop'}>
-                <Button.Danger
-                    className={'flex-1'}
+                <GlowButton
+                    $variant="stop"
                     disabled={status === 'offline'}
                     onClick={onButtonClick.bind(this, killable ? 'kill' : 'stop')}
                 >
                     {killable ? 'Kill' : 'Stop'}
-                </Button.Danger>
+                </GlowButton>
             </Can>
         </div>
     );
