@@ -46,19 +46,17 @@ const ServerConsoleContainer = () => {
                 </div>
             </div>
 
-            {/* Console on Left (70%), Stats Vertical on Right (30%) */}
-            <div className={'grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4'}>
-                {/* Console - Takes 3 columns (75%) */}
-                <div className={'lg:col-span-3'}>
-                    <Spinner.Suspense>
-                        <Console />
-                    </Spinner.Suspense>
-                </div>
 
-                {/* Server Stats Vertical - Takes 1 column (25%) */}
-                <div className={'lg:col-span-1'}>
-                    <ServerDetailsBlock className={'grid-cols-1 gap-3'} />
-                </div>
+            {/* Console - Full Width */}
+            <div className={'mb-4'}>
+                <Spinner.Suspense>
+                    <Console />
+                </Spinner.Suspense>
+            </div>
+
+            {/* Server Stats Cards - Horizontal Row Below Console */}
+            <div className={'mb-4'}>
+                <ServerDetailsBlock className={'grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3'} />
             </div>
 
             {/* Performance Graphs - Full Width Below */}
