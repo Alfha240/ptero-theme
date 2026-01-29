@@ -20,66 +20,58 @@ const GradientBackground = styled.div`
     background: linear-gradient(135deg, #1a0b2e 0%, #16213e 100%);
 `;
 
-const GlassContainer = styled.div`
-    ${tw`rounded-3xl p-6 mb-6`}
-    background: rgba(255, 255, 255, 0.03);
+const TopBar = styled.div`
+    ${tw`rounded-2xl p-4 mb-4 flex items-center justify-between flex-wrap gap-4`}
+    background: rgba(30, 20, 50, 0.8);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(157, 78, 221, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 `;
 
-const StatusBar = styled.div`
-    ${tw`flex items-center justify-between mb-6 flex-wrap gap-4`}
-`;
-
-const ServerInfo = styled.div`
-    ${tw`flex items-center gap-4`}
+const ServerTitleSection = styled.div`
+    ${tw`flex items-center gap-4 flex-1`}
 `;
 
 const ServerName = styled.h1`
-    ${tw`text-3xl font-bold`}
+    ${tw`text-2xl font-bold`}
     color: #ffffff;
-    text-shadow: 0 0 20px rgba(157, 78, 221, 0.5);
 `;
 
 const StatusBadge = styled.span<{ $isOnline?: boolean }>`
-    ${tw`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2`}
+    ${tw`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2`}
     background: ${props => props.$isOnline
-        ? 'linear-gradient(135deg, #00ff88 0%, #00d4aa 100%)'
-        : 'linear-gradient(135deg, #ff4757 0%, #ff6b81 100%)'};
+        ? '#00ff88'
+        : '#ff4757'};
     color: #000;
-    box-shadow: 0 4px 15px ${props => props.$isOnline
-        ? 'rgba(0, 255, 136, 0.4)'
-        : 'rgba(255, 71, 87, 0.4)'};
     
     &::before {
         content: '●';
-        font-size: 12px;
+        font-size: 10px;
     }
 `;
 
-const PlanBadge = styled.span`
-    ${tw`px-4 py-2 rounded-full text-sm font-semibold`}
-    background: rgba(157, 78, 221, 0.2);
-    border: 1px solid rgba(157, 78, 221, 0.4);
-    color: #9d4edd;
+const StatsBar = styled.div`
+    ${tw`rounded-xl p-3 mb-4 flex items-center gap-6 flex-wrap`}
+    background: rgba(20, 15, 35, 0.9);
+    border: 1px solid rgba(157, 78, 221, 0.2);
+`;
+
+const StatItem = styled.div`
+    ${tw`flex items-center gap-2`}
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    
+    span {
+        color: #ffffff;
+        font-weight: 600;
+    }
 `;
 
 const ConsoleWrapper = styled.div`
-    ${tw`rounded-2xl mb-6 overflow-hidden`}
+    ${tw`rounded-2xl mb-4 overflow-hidden`}
     background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(0, 255, 136, 0.3);
-    box-shadow: 0 0 30px rgba(0, 255, 136, 0.2),
-                0 8px 32px rgba(0, 0, 0, 0.5);
-`;
-
-const StatsGrid = styled.div`
-    ${tw`grid gap-4 mb-6`}
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    
-    @media (min-width: 1024px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
 `;
 
 const ServerConsoleContainer = () => {
@@ -90,8 +82,11 @@ const ServerConsoleContainer = () => {
     const eggFeatures = ServerContext.useStoreState((state) => state.server.data!.eggFeatures, isEqual);
     const isNodeUnderMaintenance = ServerContext.useStoreState((state) => state.server.data!.isNodeUnderMaintenance);
     const status = ServerContext.useStoreState((state) => state.status.value);
+    const limits = ServerContext.useStoreState((state) => state.server.data!.limits);
+    const primaryAllocation = ServerContext.useStoreState((state) => state.server.data!.allocations.find(a => a.isDefault));
 
     const isOnline = status === 'running';
+    const allocation = `${primaryAllocation?.alias || primaryAllocation?.ip}:${primaryAllocation?.port}`;
 
     return (
         <GradientBackground>
@@ -106,30 +101,39 @@ const ServerConsoleContainer = () => {
                     </Alert>
                 )}
 
-                <GlassContainer>
-                    {/* Status Bar */}
-                    <StatusBar>
-                        <ServerInfo>
-                            <ServerName>{name}</ServerName>
-                            <StatusBadge $isOnline={isOnline}>
-                                {isOnline ? 'Online' : 'Offline'}
-                            </StatusBadge>
-                            <PlanBadge>Premium Plan</PlanBadge>
-                        </ServerInfo>
+                {/* Top Bar with Server Name, Status, and Power Buttons */}
+                <TopBar>
+                    <ServerTitleSection>
+                        <ServerName>{name}</ServerName>
+                        <StatusBadge $isOnline={isOnline}>
+                            {isOnline ? 'Online' : 'Offline'}
+                        </StatusBadge>
+                    </ServerTitleSection>
 
-                        {/* Power Buttons */}
-                        <Can action={['control.start', 'control.stop', 'control.restart']} matchAny>
-                            <PowerButtons className={'flex gap-3'} />
-                        </Can>
-                    </StatusBar>
+                    {/* Power Buttons */}
+                    <Can action={['control.start', 'control.stop', 'control.restart']} matchAny>
+                        <PowerButtons className={'flex gap-3'} />
+                    </Can>
+                </TopBar>
 
-                    {/* Server Description */}
-                    {description && (
-                        <p className={'text-sm mb-4'} style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                            {description}
-                        </p>
-                    )}
-                </GlassContainer>
+                {/* Stats Bar Above Console - Like Image 2 */}
+                <StatsBar>
+                    <StatItem>
+                        <span>📡 {allocation}</span>
+                    </StatItem>
+                    <StatItem>
+                        <span>⚙️ {limits.cpu}%</span>
+                    </StatItem>
+                    <StatItem>
+                        <span>💾 {limits.memory} MB</span>
+                    </StatItem>
+                    <StatItem>
+                        <span>💿 {limits.disk} MB</span>
+                    </StatItem>
+                    <StatItem>
+                        <span>🌐 Network</span>
+                    </StatItem>
+                </StatsBar>
 
                 {/* Console - Full Width with Neon Glow */}
                 <ConsoleWrapper>
@@ -138,13 +142,8 @@ const ServerConsoleContainer = () => {
                     </Spinner.Suspense>
                 </ConsoleWrapper>
 
-                {/* Server Stats Cards - Glassmorphism Style */}
-                <StatsGrid>
-                    <ServerDetailsBlock className={''} />
-                </StatsGrid>
-
-                {/* Performance Graphs */}
-                <div className={'grid grid-cols-1 md:grid-cols-3 gap-4'}>
+                {/* Performance Graphs - Redesigned */}
+                <div className={'grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'}>
                     <Spinner.Suspense>
                         <StatGraphs />
                     </Spinner.Suspense>
