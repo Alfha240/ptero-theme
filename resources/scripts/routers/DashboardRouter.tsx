@@ -9,11 +9,6 @@ import { useLocation } from 'react-router';
 import Spinner from '@/components/elements/Spinner';
 import routes from '@/routers/routes';
 
-// Lazy load billing pages
-const WalletPage = React.lazy(() => import('@/components/billing/WalletPage'));
-const EarnCoinsPage = React.lazy(() => import('@/components/billing/EarnCoinsPage'));
-const PlansPage = React.lazy(() => import('@/components/billing/PlansPage'));
-
 export default () => {
     const location = useLocation();
 
@@ -38,16 +33,6 @@ export default () => {
                     <Switch location={location}>
                         <Route path={'/'} exact>
                             <DashboardContainer />
-                        </Route>
-                        {/* Billing Routes */}
-                        <Route path={'/billing'} exact>
-                            <WalletPage />
-                        </Route>
-                        <Route path={'/billing/earn'} exact>
-                            <EarnCoinsPage />
-                        </Route>
-                        <Route path={'/billing/plans'} exact>
-                            <PlansPage />
                         </Route>
                         {routes.account.map(({ path, component: Component }) => (
                             <Route key={path} path={`/account/${path}`.replace('//', '/')} exact>
