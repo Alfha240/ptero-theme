@@ -36,7 +36,7 @@ const ServerInfo = styled.div`
     ${tw`flex items-center gap-4`}
 `;
 
-const ServerNameconst = styled.h1`
+const ServerName = styled.h1`
     ${tw`text-3xl font-bold`}
     color: #ffffff;
     text-shadow: 0 0 20px rgba(157, 78, 221, 0.5);

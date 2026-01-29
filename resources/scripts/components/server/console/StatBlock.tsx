@@ -52,7 +52,7 @@ const StatValue = styled.div`
 `;
 
 export default ({ title, copyOnClick, icon, color, className, children }: StatBlockProps) => {
-    const hasWarning = color && (color.includes('red') || color.includes('yellow'));
+    const hasWarning = !!(color && (color.includes('red') || color.includes('yellow')));
 
     return (
         <CopyOnClick text={copyOnClick}>
