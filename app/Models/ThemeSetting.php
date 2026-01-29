@@ -104,6 +104,26 @@ class ThemeSetting extends Model
             div[class*=\"Modal__ModalContainer\"] {
                 background-color: var(--background-color) !important;
             }
+
+            /* Custom Stat Cards (requires build) */
+            .custom-theme-stat-block, .custom-theme-chart-block {
+                background-color: var(--secondary-color) !important;
+                border: 1px solid var(--primary-color) !important;
+            }
+            
+            /* Stat Block Icons */
+            .custom-theme-stat-block svg {
+                color: var(--primary-color) !important;
+            }
+
+            /* Configured Terminal */
+            .custom-terminal-block {
+                background-color: var(--background-color) !important;
+                border: 1px solid var(--primary-color) !important;
+            }
+            .custom-terminal-block .xterm-viewport {
+                background-color: var(--background-color) !important;
+            }
         ";
 
         // Append custom CSS
