@@ -20,6 +20,26 @@ use Pterodactyl\Http\Middleware\Api\Client\Server\AuthenticateServerAccess;
 Route::get('/', [Client\ClientController::class, 'index'])->name('api:client.index');
 Route::get('/permissions', [Client\ClientController::class, 'permissions']);
 
+/*
+|--------------------------------------------------------------------------
+| Billing API
+|--------------------------------------------------------------------------
+|
+| Endpoint: /api/client/billing
+|
+*/
+Route::prefix('/billing')->group(function () {
+    Route::get('/wallet', [Client\BillingController::class, 'wallet']);
+    Route::get('/transactions', [Client\BillingController::class, 'transactions']);
+    Route::get('/plans', [Client\BillingController::class, 'plans']);
+    Route::get('/settings', [Client\BillingController::class, 'settings']);
+    Route::post('/earn/daily', [Client\BillingController::class, 'claimDaily']);
+    Route::post('/earn/ad', [Client\BillingController::class, 'earnFromAd']);
+    Route::post('/redeem', [Client\BillingController::class, 'redeemCode']);
+    Route::post('/check-server', [Client\BillingController::class, 'checkServerCreation']);
+});
+
+
 Route::prefix('/account')->middleware(AccountSubject::class)->group(function () {
     Route::prefix('/')->withoutMiddleware(RequireTwoFactorAuthentication::class)->group(function () {
         Route::get('/', [Client\AccountController::class, 'index'])->name('api:client.account');
