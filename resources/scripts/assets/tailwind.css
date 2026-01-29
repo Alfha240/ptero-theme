@@ -1,3 +1,112 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Premium Dark Purple Theme Base */
+@layer base {
+    body {
+        @apply bg-neutral-900;
+        background: linear-gradient(135deg, hsl(262, 35%, 8%) 0%, hsl(280, 40%, 6%) 50%, hsl(260, 35%, 10%) 100%);
+        min-height: 100vh;
+    }
+
+    /* Better text rendering */
+    * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Premium Component Styles */
+@layer components {
+
+    /* Card/Box Styles */
+    .bg-neutral-700,
+    .bg-gray-700 {
+        background: rgba(30, 25, 50, 0.6) !important;
+        border: 1px solid rgba(157, 78, 221, 0.1);
+    }
+
+    .bg-neutral-800,
+    .bg-gray-800 {
+        background: rgba(20, 15, 35, 0.8) !important;
+        border: 1px solid rgba(157, 78, 221, 0.15);
+    }
+
+    .bg-neutral-600,
+    .bg-gray-600 {
+        background: rgba(40, 35, 65, 0.7) !important;
+    }
+
+    /* Content blocks with glassmorphism */
+    [class*="ContentBlock"],
+    [class*="content-block"] {
+        background: rgba(20, 15, 35, 0.6);
+        border-radius: 12px;
+        border: 1px solid rgba(157, 78, 221, 0.12);
+    }
+
+    /* Table row styles */
+    tr:hover {
+        background: rgba(157, 78, 221, 0.08) !important;
+    }
+
+    /* Dropdown menus */
+    [role="menu"] {
+        background: rgba(25, 20, 45, 0.95) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(157, 78, 221, 0.2);
+        border-radius: 8px;
+    }
+
+    /* Modal/dialog backdrop */
+    [class*="modal"],
+    [class*="Modal"],
+    [class*="dialog"],
+    [class*="Dialog"] {
+        background: rgba(20, 15, 35, 0.95) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(157, 78, 221, 0.2);
+    }
+
+    /* Selection color */
+    ::selection {
+        background: rgba(157, 78, 221, 0.3);
+        color: white;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(157, 78, 221, 0.4);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(157, 78, 221, 0.6);
+    }
+
+    /* Badge/Status indicator styles */
+    .bg-green-500,
+    .bg-green-600 {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+    }
+
+    .bg-red-500,
+    .bg-red-600 {
+        background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    }
+
+    .bg-yellow-500,
+    .bg-yellow-600 {
+        background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    }
+}

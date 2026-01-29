@@ -1,16 +1,31 @@
 const colors = require('tailwindcss/colors');
 
+// Premium dark purple/navy theme palette
 const gray = {
-    50: 'hsl(216, 33%, 97%)',
-    100: 'hsl(214, 15%, 91%)',
-    200: 'hsl(210, 16%, 82%)',
-    300: 'hsl(211, 13%, 65%)',
-    400: 'hsl(211, 10%, 53%)',
-    500: 'hsl(211, 12%, 43%)',
-    600: 'hsl(209, 14%, 37%)',
-    700: 'hsl(209, 18%, 30%)',
-    800: 'hsl(209, 20%, 25%)',
-    900: 'hsl(210, 24%, 16%)',
+    50: 'hsl(240, 20%, 97%)',
+    100: 'hsl(240, 15%, 91%)',
+    200: 'hsl(240, 12%, 82%)',
+    300: 'hsl(240, 10%, 65%)',
+    400: 'hsl(240, 8%, 53%)',
+    500: 'hsl(250, 12%, 40%)',
+    600: 'hsl(255, 18%, 28%)',
+    700: 'hsl(258, 25%, 18%)',
+    800: 'hsl(260, 30%, 12%)',
+    900: 'hsl(262, 35%, 8%)',
+};
+
+// Purple accent palette
+const purple = {
+    50: 'hsl(270, 100%, 98%)',
+    100: 'hsl(270, 95%, 93%)',
+    200: 'hsl(270, 85%, 85%)',
+    300: 'hsl(270, 80%, 75%)',
+    400: 'hsl(270, 75%, 60%)',
+    500: 'hsl(275, 70%, 50%)',
+    600: 'hsl(278, 65%, 45%)',
+    700: 'hsl(280, 60%, 38%)',
+    800: 'hsl(282, 55%, 30%)',
+    900: 'hsl(285, 50%, 22%)',
 };
 
 module.exports = {
@@ -23,13 +38,12 @@ module.exports = {
                 header: ['"IBM Plex Sans"', '"Roboto"', 'system-ui', 'sans-serif'],
             },
             colors: {
-                black: '#131a20',
-                // "primary" and "neutral" are deprecated, prefer the use of "blue" and "gray"
-                // in new code.
-                primary: colors.blue,
+                black: '#0a0812',
+                primary: purple,
                 gray: gray,
                 neutral: gray,
                 cyan: colors.cyan,
+                purple: purple,
             },
             fontSize: {
                 '2xs': '0.625rem',
@@ -49,3 +63,4 @@ module.exports = {
         }),
     ]
 };
+
