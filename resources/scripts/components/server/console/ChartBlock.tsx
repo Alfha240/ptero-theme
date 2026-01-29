@@ -8,28 +8,23 @@ interface ChartBlockProps {
     children: React.ReactNode;
 }
 
+// Simple dark card - no fancy borders or shadows
 const ChartContainer = styled.div`
-    ${tw`rounded-xl overflow-hidden`}
-    background: rgba(10, 15, 35, 0.9);
-    border: 1px solid rgba(64, 128, 255, 0.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    ${tw`rounded overflow-hidden bg-gray-800`}
 `;
 
 const ChartHeader = styled.div`
-    ${tw`flex items-center justify-between px-4 py-3`}
-    border-bottom: 1px solid rgba(64, 128, 255, 0.1);
+    ${tw`flex items-center justify-between px-4 py-3 border-b border-gray-700`}
 `;
 
 const ChartTitle = styled.h3`
-    ${tw`font-medium text-sm`}
-    color: rgba(255, 255, 255, 0.9);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    ${tw`font-medium text-sm text-gray-300 uppercase tracking-wide`}
 `;
 
 const ChartContent = styled.div`
     ${tw`p-4`}
 `;
+
 
 export default ({ title, legend, children }: ChartBlockProps) => (
     <ChartContainer>

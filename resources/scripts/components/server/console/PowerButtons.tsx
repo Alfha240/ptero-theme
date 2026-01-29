@@ -11,25 +11,21 @@ interface PowerButtonProps {
     className?: string;
 }
 
-const GlowButton = styled.button<{ $variant: 'start' | 'restart' | 'stop' }>`
-    ${tw`px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300`}
+// Simple flat buttons - no gradients or glow
+const PowerBtn = styled.button<{ $variant: 'start' | 'restart' | 'stop' }>`
+    ${tw`px-5 py-2 rounded font-medium text-sm transition-colors duration-150`}
     background: ${props =>
-        props.$variant === 'start' ? 'linear-gradient(135deg, #00ff88 0%, #00d4aa 100%)' :
-            props.$variant === 'restart' ? 'linear-gradient(135deg, #00f5ff 0%, #0099ff 100%)' :
-                'linear-gradient(135deg, #ff4757 0%, #ff6b81 100%)'};
-    color: ${props => props.$variant === 'restart' ? '#ffffff' : '#000000'};
+        props.$variant === 'start' ? '#22c55e' :
+            props.$variant === 'restart' ? '#6366f1' :
+                '#ef4444'};
+    color: white;
     border: none;
-    box-shadow: 0 4px 15px ${props =>
-        props.$variant === 'start' ? 'rgba(0, 255, 136, 0.4)' :
-            props.$variant === 'restart' ? 'rgba(0, 245, 255, 0.4)' :
-                'rgba(255, 71, 87, 0.4)'};
     
     &:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px ${props =>
-        props.$variant === 'start' ? 'rgba(0, 255, 136, 0.6)' :
-            props.$variant === 'restart' ? 'rgba(0, 245, 255, 0.6)' :
-                'rgba(255, 71, 87, 0.6)'};
+        background: ${props =>
+        props.$variant === 'start' ? '#16a34a' :
+            props.$variant === 'restart' ? '#4f46e5' :
+                '#dc2626'};
     }
     
     &:disabled {
@@ -37,6 +33,7 @@ const GlowButton = styled.button<{ $variant: 'start' | 'restart' | 'stop' }>`
         cursor: not-allowed;
     }
 `;
+
 
 export default ({ className }: PowerButtonProps) => {
     const [open, setOpen] = useState(false);
@@ -78,31 +75,31 @@ export default ({ className }: PowerButtonProps) => {
                 Forcibly stopping a server can lead to data corruption.
             </Dialog.Confirm>
             <Can action={'control.start'}>
-                <GlowButton
+                <PowerBtn
                     $variant="start"
                     disabled={status !== 'offline'}
                     onClick={onButtonClick.bind(this, 'start')}
                 >
                     Start
-                </GlowButton>
+                </PowerBtn>
             </Can>
             <Can action={'control.restart'}>
-                <GlowButton
+                <PowerBtn
                     $variant="restart"
                     disabled={!status}
                     onClick={onButtonClick.bind(this, 'restart')}
                 >
                     Restart
-                </GlowButton>
+                </PowerBtn>
             </Can>
             <Can action={'control.stop'}>
-                <GlowButton
+                <PowerBtn
                     $variant="stop"
                     disabled={status === 'offline'}
                     onClick={onButtonClick.bind(this, killable ? 'kill' : 'stop')}
                 >
                     {killable ? 'Kill' : 'Stop'}
-                </GlowButton>
+                </PowerBtn>
             </Can>
         </div>
     );
