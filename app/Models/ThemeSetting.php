@@ -24,6 +24,12 @@ class ThemeSetting extends Model
     protected $fillable = [
         'theme_enabled',
         'custom_css',
+        'primary_color',
+        'secondary_color',
+        'background_color',
+        'text_color',
+        'gradient_start',
+        'gradient_end',
     ];
 
     /**
@@ -44,6 +50,20 @@ class ThemeSetting extends Model
             return '';
         }
 
-        return $setting->custom_css ?? '';
+        $css = [];
+
+        // Generate CSS variables for colors
+        if ($setting->primary_color) $css[] = "--primary-color: {$setting->primary_color};";
+        if ($setting->secondary_color) $css[] = "--secondary-color: {$setting->secondary_color};";
+        if ($setting->background_color) $css[] = "--background-color: {$setting->background_color};";
+        if ($setting->text_color) $css[] = "--text-color: {$setting->text_color};";
+        if ($setting->gradient_start) $css[] = "--gradient-start: {$setting->gradient_start};";
+        if ($setting->gradient_end) $css[] = "--gradient-end: {$setting->gradient_end};";
+
+        // Create the root block
+        $rootBlock = !empty($css) ? ":root { " . implode(' ', $css) . " }" : "";
+
+        // Append custom CSS
+        return $rootBlock . "\n" . ($setting->custom_css ?? '');
     }
 }

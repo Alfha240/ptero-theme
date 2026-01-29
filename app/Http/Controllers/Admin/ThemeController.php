@@ -38,6 +38,12 @@ class ThemeController extends Controller
         $data = $request->validate([
             'theme_enabled' => 'nullable|in:1,on,true', // Checkbox handling
             'custom_css' => 'nullable|string',
+            'primary_color' => 'nullable|string',
+            'secondary_color' => 'nullable|string',
+            'background_color' => 'nullable|string',
+            'text_color' => 'nullable|string',
+            'gradient_start' => 'nullable|string',
+            'gradient_end' => 'nullable|string',
         ]);
 
         // Handle checkbox boolean conversion
@@ -46,6 +52,12 @@ class ThemeController extends Controller
         $setting = ThemeSetting::firstOrNew();
         $setting->theme_enabled = $enabled;
         $setting->custom_css = $data['custom_css'] ?? '';
+        $setting->primary_color = $data['primary_color'] ?? null;
+        $setting->secondary_color = $data['secondary_color'] ?? null;
+        $setting->background_color = $data['background_color'] ?? null;
+        $setting->text_color = $data['text_color'] ?? null;
+        $setting->gradient_start = $data['gradient_start'] ?? null;
+        $setting->gradient_end = $data['gradient_end'] ?? null;
         $setting->save();
 
         $this->alert->success('Theme settings have been updated successfully.')->flash();
